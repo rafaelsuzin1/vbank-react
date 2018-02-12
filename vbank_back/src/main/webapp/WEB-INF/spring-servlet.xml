@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/data/jpa
+    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<context:component-scan base-package="br.com.system.vbankback" />
+
+	<context:annotation-config />
+
+	<!-- Configuração para funcionar o Pageable -->
+
+	<mvc:annotation-driven>
+		<mvc:argument-resolvers>
+			<ref bean="sortResolver" />
+			<ref bean="pageableResolver" />
+		</mvc:argument-resolvers>
+	</mvc:annotation-driven>
+
+	<bean id="sortResolver"
+		class="org.springframework.data.web.SortHandlerMethodArgumentResolver" />
+	<bean id="pageableResolver"
+		class="org.springframework.data.web.PageableHandlerMethodArgumentResolver">
+		<constructor-arg ref="sortResolver" />
+	</bean>
+
+	<!-- Fim Configuração para funcionar o Pageable -->
+
+	<!-- Habilita o swagger ui -->
+	<mvc:resources location="classpath:/META-INF/resources/"
+		mapping="swagger-ui.html"></mvc:resources>
+	<mvc:resources location="classpath:/META-INF/resources/webjars/"
+		mapping="/webjars/**"></mvc:resources>
+
+	<!-- Inclui uma configuração personalizada do swagger -->
+	<bean
+		class="springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration"
+		id="swagger2Config"></bean>
+
+	<!-- Bean para alterar as informações gerais da API. -->
+	<bean name="SwaggerConfig" class="br.com.system.vbankback.config.SwaggerConfig" />
+
+	<!-- Beans para configurar e incluir recursos de envio de email usando o 
+		JavaMail do Spring. -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="" />
+		<property name="password" value="" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.quitwait">false</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- Tamanho máximo de upload em bytes -->
+		<property name="maxUploadSize" value="20971520" /> <!-- 20MB -->
+
+		<!-- Tamanho máximo do arquivo na memória (em bytes) -->
+		<property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
+
+	</bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+
+
+		<!-- 
+		<property name="url" value="jdbc:mysql://52.73.24.220/itagalert"/> 
+		<property name="username" value="root"/> 
+		<property name="password" value="#*my-itag*#"/> -->
+
+		
+		<property name="url" value="jdbc:mysql://localhost:3306/vbank" />
+		<property name="username" value="root" />
+		<!-- <property name="password" value="csgo075" /> -->
+		<property name="password" value="root" /> 
+
+	</bean>
+
+	<bean id="jpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="showSql" value="true" />
+		<property name="generateDdl" value="true" />
+		<property name="database" value="MYSQL" />
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+		<property name="packagesToScan" value="br.com.system.vbankback.model*" />
+	</bean>
+
+	<!-- resources exclusions from servlet mapping -->
+	<mvc:resources mapping="/static/**" location="/static/" />
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />
+
+	<jpa:repositories base-package="br.com.system.vbankback.dao" />
+
+</beans>
