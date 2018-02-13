@@ -19,9 +19,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-/***
+/**
+ * Usuário
  * 
- * @author Julio
+ * @author Rafael Suzin
  *
  */
 
@@ -32,13 +33,12 @@ public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = -2477877980562473895L;
 
-	// GenerationType.AUTO, gera uma tabela extra de sequência e atrapalha.
 	@Id
-	@ApiModelProperty(value = "Id do usuario")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false, length = 11)
+	@Column(name = "id")
+	@ApiModelProperty(value = "Id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-
+	
 	@ApiModelProperty(value = "Nome do usuario")
 	@Column(name = "nome", nullable = false, length = 60)
 	@Size(max = 60, message = "Campo 'nome' pode ter at� 60 caracteres.")
@@ -76,7 +76,7 @@ public class Usuario implements Serializable {
 	private SituacaoUsuario situacaoUsuario;
 
 	@ApiModelProperty(value = "Usuario Excluido")
-	@Column(name = "excluido", nullable = false, length = 11, columnDefinition = "TINYINT(1)")
+	@Column(name = "excluido", nullable = false, length = 1, columnDefinition = "TINYINT(1)")
 	@NotNull(message = "Campo 'excluido' obrigatorio.")
 	private Boolean excluido;
 
@@ -86,7 +86,6 @@ public class Usuario implements Serializable {
 
 	public Usuario(Long id, String nome, String email, String login, String senha, TipoUsuario tipo,
 			SituacaoUsuario situacaoUsuario, Boolean excluido) {
-		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
@@ -96,6 +95,8 @@ public class Usuario implements Serializable {
 		this.situacaoUsuario = situacaoUsuario;
 		this.excluido = excluido;
 	}
+	
+	
 
 	public Long getId() {
 		return id;

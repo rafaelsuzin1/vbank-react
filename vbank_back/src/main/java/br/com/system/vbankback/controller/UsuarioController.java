@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 
-@Api
+@Api(value = "Usuário")
 @RestController
 @RequestMapping(value = "/usuarios")
 public class UsuarioController {

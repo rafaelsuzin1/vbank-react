@@ -12,9 +12,12 @@ import br.com.system.vbankback.model.Usuario;
 @Repository
 public interface UsuarioDAO extends JpaRepository<Usuario, Long>, QueryDslPredicateExecutor<Usuario> {
 
-	public Usuario findByLogin(String login);
-	public Usuario findByNome(String name);
-	public List<Usuario> findByTipo(TipoUsuario tipoUsuario);
-	public Usuario findByLoginAndSenha(String login, String senha);
+	Usuario findByLogin(String login);
+
+	Usuario findByNome(String name);
+
+	List<Usuario> findByTipo(TipoUsuario tipoUsuario);
+
+	Usuario findByLoginAndSenha(String login, String senha);
 
 }

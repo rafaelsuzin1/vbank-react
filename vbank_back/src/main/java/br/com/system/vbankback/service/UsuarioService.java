@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.querydsl.jpa.impl.JPAQuery;
-
 import br.com.system.vbankback.dao.UsuarioDAO;
 import br.com.system.vbankback.model.QUsuario;
 import br.com.system.vbankback.model.TipoUsuario;
@@ -50,17 +48,19 @@ public class UsuarioService {
 		return dao.findByLoginAndSenha(login, senha);
 	}
 
-	public List<Usuario> getByTipo(TipoUsuario tipoUsuario){
+	public List<Usuario> getByTipo(TipoUsuario tipoUsuario) {
 		return dao.findByTipo(tipoUsuario);
 	}
-	
+
 	public Usuario getByLoginAndTipo(String login, TipoUsuario tipoUsuario) {
 		QUsuario user = QUsuario.usuario;
 		return dao.findOne(user.login.eq(login).and(user.tipo.eq(tipoUsuario)));
+
 	}
-	
+
 	public List<Usuario> getByNomeContain(String nome) {
 		QUsuario user = QUsuario.usuario;
 		return (List<Usuario>) dao.findAll(user.nome.contains(nome));
+
 	}
 }
