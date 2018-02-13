@@ -2,7 +2,7 @@ Projeto já implementado em Java EE. Agora para aprendizado de REACT JS será im
 
 ##VBank##
 
-Este projeto visa a demostração do aprendizado em JavaEE utilizando EJB.
+Este projeto visa a demostração do aprendizado em Java+String+React.
 
 ###Cenário### Com a nova regulamentação bancária no Brasil, novos tipos de negócios tornaram-se viáveis. Um deles é possibilidade de abertura de bancos virtuais, que não necessariamente precisam ter uma agência disponível para o cliente entrar em contato pessoalmente. Enxergando o enorme potencial que esta mudança proporcionou, um grupo de investidores americanos (atualmente detentores de uma rede bancária nos EUA), resolveu criar o VBank, o banco totalmente virtual que será disponibilizado para o mercado brasileiro. O banco pretende oferecer a seus clientes serviço como disponibilização de cartões de crédito, contas correntes e contas poupança. O mesmo visa atingir um público jovem, universitário e altamente conectado a internet.
 
